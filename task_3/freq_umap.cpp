@@ -22,13 +22,19 @@ int main(int argc, char* argv[])
     }
 
     std::unordered_map<std::string, int> freq_umap;
+    std::vector<std::string> buffer;
     std::string word;
+
+    while (file >> word) {
+        buffer.push_back(word);
+    }
 
     auto start_build = std::chrono::steady_clock::now();
 
-    while (file >> word) {
-        freq_umap[word]++;
-    }
+    std::for_each(
+            buffer.begin(),
+            buffer.end(),
+            [&freq_umap](const std::string& word) { ++freq_umap[word]; });
 
     auto finish_build = std::chrono::steady_clock::now();
     auto duration_build = std::chrono::duration_cast<std::chrono::microseconds>(
